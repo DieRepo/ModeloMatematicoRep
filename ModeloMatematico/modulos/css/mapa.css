@@ -1,0 +1,134 @@
+﻿.img {
+    height: 20px;
+    width: 50px;
+    background-image: url("../img/flecha.png");
+    background-repeat: no-repeat;
+    background-size: 50px 20px;
+    margin: 0 auto;
+    /*border-radius: 0px 0px 100px 100px;*/
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    text-align: center;
+}
+
+.arrowTop {
+    margin-top: 16px !important;
+}
+
+.img:hover {
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+.contMenu {
+    background-color: rgb(124, 12, 12);
+    /*opacity: .6;*/
+    width: 100%;
+    height: auto;
+    border-radius: 0px 0px 5px 5px;
+    display: none;
+    z-index: 1;
+    color: black !important;
+}
+
+    .contMenu .btn-group {
+       opacity: 1 !important
+    }
+
+/*****************************************************************************************/
+/* ARROWS */
+.arrowText {
+    position: relative;
+    /*margin: 20px;*/
+    width: 50px;
+    /*height: 48px;*/
+    background: rgb(124, 12, 12);
+    opacity: .8;
+    /*border:solid 1px #0cceff;*/
+    /*float: left;*/
+}
+
+    .arrowText:before, .arrowText:after {
+        content: " ";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+    }
+
+/* TOP ARROW */
+.arrowTop:before, .arrowTop:after {
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    left: 0;
+}
+
+.arrowTop:after {
+    border-bottom: 16px solid rgb(124, 12, 12);
+    top: -15px;
+    z-index: 2;
+}
+
+.arrowTop:before {
+    border-bottom: 16px solid rgb(124, 12, 12);
+    top: -16px;
+    z-index: 1;
+}
+
+/* RIGHT ARROW */
+.arrowRight:before, .arrowRight:after {
+    border-bottom: 25px solid transparent;
+    border-top: 25px solid transparent;
+    top: -1px;
+}
+
+.arrowRight:after {
+    border-left: 16px solid rgb(124, 12, 12);
+    right: -15px;
+    z-index: 2;
+}
+
+.arrowRight:before {
+    border-left: 16px solid rgb(124, 12, 12);
+    right: -16px;
+    z-index: 1;
+}
+
+/* BOTTOM ARROW */
+.arrowBottom:before, .arrowBottom:after {
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    left: 0;
+}
+
+.arrowBottom:after {
+    border-top: 16px solid rgb(124, 12, 12);
+    bottom: -16px;
+    z-index: 2;
+}
+
+.arrowBottom:before {
+    border-top: 16px solid rgb(124, 12, 12);
+    bottom: -17px;
+    z-index: 1;
+}
+
+/* LEFT ARROW */
+.arrowLeft:before, .arrowLeft:after {
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    top: -1px
+}
+
+.arrowLeft:after {
+    border-right: 16px solid #C7E0E5;
+    left: -15px;
+    z-index: 2;
+}
+
+.arrowLeft:before {
+    border-right: 16px solid #0cceff;
+    left: -16px;
+    z-index: 1;
+}
