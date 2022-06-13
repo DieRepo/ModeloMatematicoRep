@@ -17,8 +17,12 @@
 /* 
  * Optional: Makes the sample page fill the window. 
     * Prueba de Abisai para subir cambios 
-    Prueba Abisai Meza Combinacion de cmabios
+    Prueba Abisai Meza Combinacion de cambios
  */
+/*
+Probando subida de archivos
+    
+*/
 html,
 body {
   height: 100%;
