@@ -61,7 +61,7 @@ function initMap() {
             + '</div>');
 
 
-        map.addListener("click", (e) => {
+        map.addListener("click", (e) => { 
             // 3 seconds after the center of the map has changed, pan back to the
             if (idEvento == 0) {
             } else if (idEvento == 1) {
