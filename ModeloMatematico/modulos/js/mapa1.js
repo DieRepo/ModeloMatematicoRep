@@ -154,6 +154,8 @@ function medirDistancia() {
         cleanArray(arrayMarker.length);
         var agregados = 6;
         var fijos = 4;
+
+        a = 1;
         for (x; x < arrayMarker.length - 1; x++) {
 
 
@@ -165,7 +167,7 @@ function medirDistancia() {
             );
 
             if (distanceInMeters <= 15000) {
-                a = 1;
+              
 
                 // console.log("Juzgado dentro de la simulacion Distancia en metros:" + distanceInMeters);
                 arrayMarker[x].setAnimation(google.maps.Animation.BOUNCE);
@@ -174,10 +176,10 @@ function medirDistancia() {
                 posicion2 = x;
                 console.log("JUNTOS  posicion:" + posicion + " " + "pos2=" + posicion2);
 
-                console.log("veces q pasa en a:" + a);
                 // sumar(posicion, posicion2, agregados,a);
                 arrayMarker[x].setLabel(label + x);
                 a++;
+                console.log("veces q pasa en a:" + a);
 
             }
             else {
