@@ -132,3 +132,19 @@
     left: -16px;
     z-index: 1;
 }
+
+.odometer.odometer-auto-theme, .odometer.odometer-theme-car {
+    background: none;
+}
+
+#line-container {
+    width: 300px;
+    height: 40px;
+    margin: 50px auto;
+}
+
+#line-container {
+    width: 300px;
+    height: 8px;
+    margin: 50px auto;
+}
