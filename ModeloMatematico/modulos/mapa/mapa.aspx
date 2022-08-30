@@ -82,6 +82,8 @@ Probando subida de archivos
                                   <asp:TextBox ID="distancia" runat="server" Text="10000" />
                               </td>
                           </tr>
+                          <tr><td>                           <asp:Button ID="btnSubmit" Text="Enviar" runat="server" />
+</td></tr>
 
                       </table>
         </asp:Panel>
@@ -109,7 +111,6 @@ Probando subida de archivos
                    </tr>
                    <tr>
                        <td>
-                           <asp:Button ID="btnSubmit" Text="Enviar" runat="server" />
                        </td>
                    </tr>
                </table>
@@ -189,7 +190,7 @@ Probando subida de archivos
                 $.ajax({
                     type: "POST",
                     url: "http://localhost:59005/WebService.asmx/GetDetails",
-                    data: "{ name: '" + name + "', age: " + age + "}",
+                    data: "",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (r) {
