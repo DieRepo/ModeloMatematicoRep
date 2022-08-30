@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
@@ -28,9 +31,52 @@ public class WebService : System.Web.Services.WebService {
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public string GetDetails(string name, int age)
+    public string GetDetails()
     {
-        return string.Format("Name: {0}{2}Age: {1}{2}TimeStamp: {3}", name, age, Environment.NewLine, DateTime.Now.ToString());
+        string jsonNuevo= "";
+        try
+        {
+            MySqlConnection conexion = new MySqlConnection(System.Configuration.ConfigurationManager.AppSettings["die"]);
+            conexion.Open();
+
+            List<Simulacion> lista = new List<Simulacion>();
+            
+
+            String consulta =
+                 "SELECT p.cveJuzgado cvejuz,p.total total,h.nombre juz,p.latitud la,p.longitud lo " +
+                 "FROM die_simulacion.tblpredicciones p " +
+                 "inner join die_equivalencias_catalogos.homologado_tbljuzgados h on p.cveJuzgado = h.idJuzgado " +
+                 "where cveJuzgado in(109, 15, 16, 99, 149, 127, 50, 127, 116, 146) ";
+
+            MySqlCommand cmd = new MySqlCommand(consulta, conexion);
+            cmd.CommandTimeout = 1800;
+            MySqlDataReader r = cmd.ExecuteReader();
+
+
+            while (r.Read())
+            {
+                Simulacion s = new Simulacion();
+                s.Id = r.GetString("cvejuz");
+                s.Total = r.GetString("total");
+                s.Title = r.GetString("juz");
+                s.Lat = r.GetString("la");
+                s.Lng = r.GetString("lo");
+                s.Description = "";
+
+                lista.Add(s);
+            }
+
+             jsonNuevo = JsonConvert.SerializeObject(lista,Formatting.Indented);
+
+
+            conexion.Close();
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine("Error");
+        }
+
+        return jsonNuevo;
     }
 
 }
