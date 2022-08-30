@@ -17,48 +17,7 @@ var agregados = 0;
 var totalPorcentajeSimulacion;
 
 var juzgadosSimulacion = [];
-var markers = [
-    {
-        "id": "1",
-        "total": "10",
-        "title": 'Juzgado 1° Familiar Toluca',
-        "lat": '19.11821699',
-        "lng": '-99.63481351',
-        "description": 'Aksa Beach is a popular beach and a vacation spot in Aksa village at Malad, Mumbai.'
-    },
-    {
-        "id": "2",
-        "total": "20",
-        "title": 'Juzgado 2° Familiar Toluca',
-        "lat": '19.4247067',
-        "lng": '-99.63481351',
-        "description": 'Juhu Beach is one of favorite tourist attractions situated in Mumbai.'
-    },
-    {
-        "id": "3",
-        "total": "30",
-        "title": 'Juzgado 3° Familiar Toluca',
-        "lat": '19.71821699',
-        "lng": '-99.63481351',
-        "description": 'Girgaum Beach commonly known as just Chaupati is one of the most famous public beaches in Mumbai.'
-    },
-    {
-        "id": "4",
-        "total": "40",
-        "title": 'Juzgado 4° Familiar Toluca',
-        "lat": '19.9247067',
-        "lng": '-99.63481351',
-        "description": 'Jijamata Udyan is situated near Byculla station is famous as Mumbai (Bombay) Zoo.'
-    },
-    {
-        "id": "5",
-        "total": "50",
-        "title": 'Juzgado 5° Familiar Toluca',
-        "lat": '19.2147067',
-        "lng": '-99.63481351',
-        "description": 'Sanjay Gandhi National Park is a large protected area in the northern part of Mumbai city.'
-    }
-];
+var markers = [] ;
 
 
 
@@ -86,6 +45,7 @@ $(document).ready(function () {
  */
 
 function initMap() {
+
     try {
         map;
 
@@ -137,27 +97,60 @@ function initMap() {
             idEvento = 1;
         });
 
-        obtenerJuzgadosFamiliar(map);
+        obtenerJuzgados(map);
+
+        //obtenerJuzgadosFamiliar(map);
 
 
-    } catch (ex) { console.log(ex); }
+    } catch (ex) {
+        console.log(ex);
+    }
+}
+
+function obtenerJuzgados(map) {
+    console.log("Obtener información de WS");
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:59005/WebService.asmx/GetDetails",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (r) {
+            //alert(r.d);
+            //console.log(r.d);
+            const parsed = JSON.parse(r.d);
+            markers = parsed;
+            //console.log("TERMINA OBTENER JUZGADOS  " + markers.length);
+            obtenerJuzgadosFamiliar(map);
+        },
+        error: function (r) {
+            alert(r.responseText);
+        },
+        failure: function (r) {
+            alert(r.responseText);
+        }
+    });
+
 }
 
 
 function obtenerJuzgadosFamiliar(map) {
+
+    console.log("MARKERS JSON: "+markers.length)
     var latlngbounds = new google.maps.LatLngBounds();
 
     for (var i = 0; i < markers.length; i++) {
         var infoWindow = new google.maps.InfoWindow();
 
         var data = markers[i]
-        var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+        //console.log(data);
+        var myLatlng = new google.maps.LatLng(data.Lat, data.Lng);
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map,
-            title: data.title,
+            title: data.Title ,
             label: {
-                text: data.title,
+                text: data.Title + " (" + data.Total + ")" ,
                 color: "#000",
                 lineHeight: "20px",
                 draggable: true,
@@ -169,7 +162,7 @@ function obtenerJuzgadosFamiliar(map) {
 
         (function (marker, data) {
             google.maps.event.addListener(marker, "click", function (e) {
-                infoWindow.setContent("<div style = 'width:200px;min-height:40px'>Total: " + data.total + "</div>");
+                infoWindow.setContent("<div style = 'width:200px;min-height:40px'>Total: " + data.Total + "</div>");
                 infoWindow.open(map, marker);
 
             });
@@ -177,7 +170,7 @@ function obtenerJuzgadosFamiliar(map) {
         arrayMarker.push(marker);
         latlngbounds.extend(marker.position);
 
-        //infoWindow.setContent('            <div id="odometer0" class="odometer">' + data.total+ '</div>');
+        //infoWindow.setContent('            <div id="odometer0" class="odometer">' + data.Total+ '</div>');
         //infoWindow.setContent('<div id="odometer' + (i+1) + '" class="odometer odometer-auto-theme"><div class="odometer-inside"><span class="odometer-digit"><span class="odometer-digit-spacer">8</span><span class="odometer-digit-inner"><span class="odometer-ribbon"><span class= "odometer-ribbon-inner" > <span class="odometer-value">0</span></span ></span ></span ></span ></div ></div > ');
         //infoWindow.open(map, marker);
 
@@ -245,6 +238,10 @@ function ocultarOdometro(index, valor) {
 
 function reiniciarOdometro(n) {
     console.log("REINICIAR");
+    
+
+
+    n = 0;
     var total = 10;
     /*for (var i = 0; i < total; i++) {
         var elemento = 'odometer' + i;
@@ -257,19 +254,19 @@ function reiniciarOdometro(n) {
     for (var i = 0; i < arrayMarker.length; i++) {
         arrayMarker[i].setMap(null);
     }
-    arrayMarker = new Array();
-    document.getElementById('odometerTotal'+n).textContent = 0;
-      document.getElementById('nombreJuzgado'+n).textContent = "";
+    //arrayMarker = new Array();
+    //document.getElementById('odometerTotal'+n).textContent = 0;
+    //document.getElementById('nombreJuzgado'+n).textContent = "";
     //window.odometerTotal.innerHTML = 0;
-    //window.nombreJuzgado.innerHTML = "";
-    obtenerJuzgadosFamiliar(map);
-    $('#tabla${n}').empty();
+    //window.NombreJuzgado.innerHTML = "";
+    //obtenerJuzgadosFamiliar(map);
+    //circle.setMap(null);
+    //$('#tabla${n}').empty();
+    window.location.reload();
 }
 
 
 function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
-    //marker.circle.setMap(null);
-
     n++;
     arrayJuzgados.length = 0;
     try {
@@ -292,21 +289,16 @@ function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
 
         arrayMarker.push(marker);
 
-
-
-
-
         const contentString =
-            '<h5>INFORMACIÓN</h5> '
+            '<h5>INFORMACIÓN - SIMULACIÓN '+n+'</h5> '
             + '<div id="panelDatos' + n + ' " Style="right: 50px; top: 620px; z-index: 2; background-color: white; opacity: 0.8; border-radius: 20px; padding: 10px;" >'
-            + n
             + '<table>'
             + '<tr>'
             + '    <td>'
             + '        Total:'
             + '   </td>'
             + '   <td>'
-            + '       <input id="odometerTotal' + n + '" value="0"  />'
+            + '       <input id="odometerTotal' + n + '" disabled value="0"  />'
             + '   </td>'
             + '</tr>'
             + '<tr>'
@@ -429,8 +421,7 @@ function medirDistancia() {
 
             if (distanceInMeters <= totalMetros) {
 
-
-                console.log(markers[x]);
+                //console.log(markers[x]);
                 var arrayDeCadenas = arrayMarker[x].getLabel().text.split(" >> ");
                 var esNuevo = arrayDeCadenas[0].includes('Nuevo');
                 if (esNuevo) {
@@ -438,13 +429,13 @@ function medirDistancia() {
                     totalNuevo++;
                 } else {
 
-                    var total = parseInt(markers[x].total)
+                    var total = parseInt(markers[x].Total)
 
                     arrayMarker[x].setAnimation(google.maps.Animation.BOUNCE); //Agregar animación
 
                     posicion2 = x;
 
-                    agregados = agregados + parseInt(markers[x].total);
+                    agregados = agregados + parseInt(markers[x].Total);
                     //modificarOdometro(contador, total);
 
                 }
@@ -547,26 +538,31 @@ function mostrarInfoJuzgados(cont) {
     $('#tablaJuzgado' + cont).empty();
     htmlInfo.push('<tr><td>Nombre</td><td>Porcentaje</td><td>Total</td></tr>');
     for (var i = 0; i < (totalMarkers); i++) {
-        var idJuz = (i == 0) ? 'N' : arrayJuzgados[i - 1].id;
-        var nombreJuzgado = (i == 0) ? ($.trim($("[id*=nombreJuzgado"+cont+"]").val())) : (arrayJuzgados[i - 1].title);
+        var idJuz = (i == 0) ? 'N' : arrayJuzgados[i - 1].Id;
+        var nombreJuzgado = (i == 0) ? ($.trim($("[id*=nombreJuzgado"+cont+"]").val())) : (arrayJuzgados[i - 1].Title);
         var porcentajeJuzgado = (i == 0) ? $.trim($("[id*=porcentajeJuzgado"+cont+"]").val()) : 0;
-        var totalInicio = (i == 0) ? 0 : arrayJuzgados[i - 1].total;
-        console.log(i + " - " + nombreJuzgado + " - " + porcentajeJuzgado);
+        var totalInicio = (i == 0) ? 0 : arrayJuzgados[i - 1].Total;
+        //console.log(i + " - " + nombreJuzgado + " - " + porcentajeJuzgado);
 
         var dato = '<tr>' +
             '<td style="width:300px;"> ' + idJuz + ". " + nombreJuzgado + '</td>' +
-            '<td> <input id="simula'+cont+"_" + i + '"  Text="' + porcentajeJuzgado + '" style="width: 50px;" class="totPor' + cont + '" onkeyup="sumarPorcentajes(' + cont + ');"/></td>' +
-            '<td> <input id="simulaTotalPanel' + cont + '_' + i +'" value="0" style="width: 50px;" /> </td> '+
+            '<td> <input id="simula' + cont + "_" + i + '"  Text="' + porcentajeJuzgado + '" style="width: 50px;" type="number" pattern="[0-9]+" min="0" max="99" class="totPor' + cont + '" onkeyup="sumarPorcentajes(' + cont + ');"/></td>' +
+            '<td> <input id="simulaTotalPanel' + cont + '_' + i +'" value="0" disabled style="width: 50px;" /> </td> '+
             ' </tr >';
         htmlInfo.push(dato);
 
+        if((nombreJuzgado == "")) {  //COMPRUEBA CAMPOS VACIOS
+            alert("Campo Vacio");
+            return true;
+        }
+
         //Crear objetos para almacenarlos posteriormente en BD
         var obj = new Object();
-        obj.id = idJuz;
-        obj.nombre = nombreJuzgado;
-        obj.total = totalInicio;
-        obj.porcentaje = 0;
-        obj.totalSimula = 0;
+        obj.Id = idJuz;
+        obj.Nombre = nombreJuzgado;
+        obj.Total = totalInicio;
+        obj.Porcentaje = 0;
+        obj.TotalSimula = 0;
         console.log(obj);
         juzgadosSimulacion.push(obj);
     }
@@ -590,11 +586,11 @@ function simularPorcentajes(cont) {
     } else {
         for (var i = 0; i < juzgadosSimulacion.length; i++) {
             var prcnt = $.trim($("[id*=simula" + cont +"_" + i + "]").val());
-            juzgadosSimulacion.porcentaje = (agregados * prcnt) / 100;
-            $("#simulaTotalPanel"+cont+"_"+i).val(juzgadosSimulacion.porcentaje);
+            juzgadosSimulacion.Porcentaje = (agregados * prcnt) / 100;
+            $("#simulaTotalPanel"+cont+"_"+i).val(juzgadosSimulacion.Porcentaje);
             //simulaTotalPanel
-            //console.log(i + " -- " + juzgadosSimulacion.porcentaje);
-            modificarOdometro(i, juzgadosSimulacion.porcentaje);
+            //console.log(i + " -- " + juzgadosSimulacion.Porcentaje);
+            modificarOdometro(i, juzgadosSimulacion.Porcentaje);
         }
     }
 }
@@ -614,7 +610,7 @@ function sumarPorcentajes(n) {
     });
      document.getElementById('totalPorcentaje'+n).innerHTML = totalPorcentajeSimulacion;
 
-    //window.totalPorcentaje.innerHTML = totalPorcentajeSimulacion;
+    //window.TotalPorcentaje.innerHTML = totalPorcentajeSimulacion;
 
     //console.log("TOT PORC " + totalPorcentajeSimulacion);
 
