@@ -1,4 +1,5 @@
-﻿var idEvento = 0;
+﻿
+var idEvento = 0;
 var arrayMarker = new Array();
 var label = "Nuevo Juzgado  >> 0 ";
 var position = [19.316327373141174, -99.67071533203125];
@@ -10,6 +11,7 @@ var circle;
 var totalNuevo = 0;
 var arrayJuzgados = [];
 var map;
+var n = 0;
 
 var agregados = 0;
 var totalPorcentajeSimulacion;
@@ -42,7 +44,7 @@ var markers = [
     },
     {
         "id": "4",
-        "total" : "40",
+        "total": "40",
         "title": 'Juzgado 4° Familiar Toluca',
         "lat": '19.9247067',
         "lng": '-99.63481351',
@@ -119,10 +121,10 @@ function initMap() {
             + '<div class="img arrowText arrowBottom" id="btnMenu">'
             + '<a>MENU</a> '
             + '</div>'
-      );
+        );
 
 
-        map.addListener("click", (e) => { 
+        map.addListener("click", (e) => {
             // 3 seconds after the center of the map has changed, pan back to the
             if (idEvento == 0) {
             } else if (idEvento == 1) {
@@ -142,7 +144,7 @@ function initMap() {
 }
 
 
-function obtenerJuzgadosFamiliar(map ) {
+function obtenerJuzgadosFamiliar(map) {
     var latlngbounds = new google.maps.LatLngBounds();
 
     for (var i = 0; i < markers.length; i++) {
@@ -167,7 +169,7 @@ function obtenerJuzgadosFamiliar(map ) {
 
         (function (marker, data) {
             google.maps.event.addListener(marker, "click", function (e) {
-               infoWindow.setContent("<div style = 'width:200px;min-height:40px'>Total: "+data.total+"</div>");
+                infoWindow.setContent("<div style = 'width:200px;min-height:40px'>Total: " + data.total + "</div>");
                 infoWindow.open(map, marker);
 
             });
@@ -193,24 +195,8 @@ function simularInfo() {
     var total = 5;
     var cadena = "";
     for (var i = 0; i < total; i++) {
-        cadena += ' <div id="odometer' + (0+10) + '" class="odometer">' + i + '</div>';
+        cadena += ' <div id="odometer' + (0 + 10) + '" class="odometer">' + i + '</div>';
     }
-    //document.getElementById("panelOdometro").textContent = cadena;
-
-    //$("#panelOdometro").append(cadena);
-   /* var el = document.querySelector('#panelOdometro');
-
-    od = new Odometer({
-        el: el,
-        value: 10,
-        // Any option (other than auto and selector) can be passed in here
-        format: '',
-        theme: 'digital'
-    });
-
-    od.update(100)
-    // or
-    el.innerHTML = 150  */
 
 
     console.log("SIMULACION");
@@ -228,6 +214,7 @@ function simularInfo() {
         //$(elemento).html(cont );
         var text = document.getElementById(elemento).textContent;
         document.getElementById(elemento).textContent = parseInt(totalSimulacion);
+
         cont = cont + 10;
     }
 
@@ -239,7 +226,7 @@ function simularInfo() {
 
 function modificarOdometro(index, valor) {
     var elemento = 'odometer' + index;
-    console.log("Modificar: "+elemento + " -"+valor+"-");
+    console.log("Modificar: " + elemento + " -" + valor + "-");
     document.getElementById(elemento).textContent = valor;
     document.getElementById(elemento).style.visibility = "visible";
 
@@ -249,35 +236,41 @@ function ocultarOdometro(index, valor) {
     for (var x = index; x < 11; x++) {
         var elemento = 'odometer' + (x - 1);
         //console.log("Ocultar: " + elemento + " -" + valor + "-");
-        document.getElementById(elemento).style.visibility= "hidden";
+        /* document.getElementById(elemento).style.visibility= "hidden";*/
+        document.getElementById(elemento).style.visibility = "hidden";
     }
     console.log("TERMINAR REINICIO");
 }
 
 
-function reiniciarOdometro() {
+function reiniciarOdometro(n) {
     console.log("REINICIAR");
     var total = 10;
-    for (var i = 0; i < total; i++) {
+    /*for (var i = 0; i < total; i++) {
         var elemento = 'odometer' + i;
         document.getElementById(elemento).textContent = 0;
         document.getElementById(elemento).style.visibility = "hidden";
-    }
+
+    }*/
     deleteMarkers(arrayMarker);
     console.log("TERMINAR REINICIO");
     for (var i = 0; i < arrayMarker.length; i++) {
         arrayMarker[i].setMap(null);
     }
     arrayMarker = new Array();
-    document.getElementById('odometerTotal').textContent = 0;
-    document.getElementById('nombreJuzgado').textContent = "";
+    document.getElementById('odometerTotal'+n).textContent = 0;
+      document.getElementById('nombreJuzgado'+n).textContent = "";
+    //window.odometerTotal.innerHTML = 0;
+    //window.nombreJuzgado.innerHTML = "";
     obtenerJuzgadosFamiliar(map);
-    $('#tablaJuzgados').empty();
+    $('#tabla${n}').empty();
 }
 
 
 function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
     //marker.circle.setMap(null);
+
+    n++;
     arrayJuzgados.length = 0;
     try {
 
@@ -288,7 +281,6 @@ function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
                 color: "WHITE",
                 lineHeight: "20px",
                 draggable: true,
-                //animation: google.maps.Animation.DROP,
                 fontSize: "0px",
                 fontWeight: "bold",
                 icon: 'imag/01.png',
@@ -301,31 +293,65 @@ function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
         arrayMarker.push(marker);
 
 
+
+
+
+        const contentString =
+            '<h5>INFORMACIÓN</h5> '
+            + '<div id="panelDatos' + n + ' " Style="right: 50px; top: 620px; z-index: 2; background-color: white; opacity: 0.8; border-radius: 20px; padding: 10px;" >'
+            + n
+            + '<table>'
+            + '<tr>'
+            + '    <td>'
+            + '        Total:'
+            + '   </td>'
+            + '   <td>'
+            + '       <input id="odometerTotal' + n + '" value="0"  />'
+            + '   </td>'
+            + '</tr>'
+            + '<tr>'
+            + '    <td>'
+            + '        Nombre Juzgado:'
+            + '   </td>'
+            + '   <td>'
+            + '       <input id="nombreJuzgado'+n+'" text="Nombre" />'
+            + '   </td>'
+            + '</tr>'
+            + '<tr>'
+            + '   <td>'
+            + '       <button id="buttonGenera'+ n + '" type="button" class="btn btn-secondary" onclick="mostrarInfoJuzgados('+n+');">Generar</button>'
+            + '    </td>'
+            + '</tr>'
+            + '</table>'
+            + '</div> '
+            + '<div id="panel' + n + '" style="background-color: #e3f2fd;opacity: 0.8;border-radius: 20px;padding: 10px;">'
+            + '     <table id="tablaJuzgado' + n + '">'
+            + '     </table>'
+            + '     <span>Total de porentaje: </span><span id="totalPorcentaje'+n+'"></span> <br /><br />'
+            + '     <button id="buttonSimula'+n+'" type="button" class="btn btn-outline-primary" onclick="simularPorcentajes('+n+')">Generar</button>'
+            + '     <button id="buttonGuarda' + n +'" type="button" class="btn btn-outline-success" onclick="simularPorcentajes("1")">Guardar</button>'
+            + '</div>'
+
+        console.log("resultado n: " + n);
+
+
+
+
         var infowindow = new google.maps.InfoWindow({
-            content: ''  /* '<h5>INFORMACION</h5>'
-                + '<table border="0" cellpadding="0" cellspacing="0">'
-                + '<tr>'
-                + '    <td>'
-                + '        Total:'
-                + '   </td>'
-                + '   <td>'
-                + '        <input id="totalJuzgado"  Text="0" />'
-                + '    </td>'
-                + '</tr>'
-                + '<tr>'
-                + '    <td>'
-                + '        Porcentaje:'
-                + '   </td>'
-                + '   <td>'
-                + '        <input id="porcentaje"  Text="0" />'
-                + '    </td>'
-                + '</tr>'
-                + '</div > '*/
+
+            content: contentString,
         });
+
         infowindow.open(map, marker);
 
-
         medirDistancia();
+
+        google.maps.event.addListener(marker, 'click', 'click', function () {
+            infoWindow.setContent(this.ventana);
+            infoWindow.open(map, this);
+        });
+
+
 
         google.maps.event.addListener(marker, 'drag', function () {
             //arrayMarker.length = 0;
@@ -333,12 +359,12 @@ function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
         });
 
         circle = new google.maps.Circle({
-            map: map, radius: totalMetros, // distancia en metros
+            map: map, radius: totalMetros, // distancen metros
             fillColor: '#0dcaf0'
         });
 
         circle.bindTo('center', marker, 'position');
- 
+
 
         marker.addListener("rightclick", () => {
 
@@ -350,11 +376,11 @@ function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
 
                 marker.setMap(null); //eliminar marcador
                 deleteMarkers(arrayMarker);
-                //  arrayMarker[arrayMarker.length - 1];
-                //  setMapOnAll(map);
-                // cleanArray(arrayMarker.length);
-                //Eliminar espacios en blanco
-                //marker.setMap(null);
+                /*  arrayMarker[arrayMarker.length - 1];
+                    setMapOnAll(map);
+                    cleanArray(arrayMarker.length);
+                    Eliminar espacios en blanco
+                    marker.setMap(null); */
                 var popup = new google.maps.InfoWindow({
                     content: 'Marcador eliminado'
                     , position: map.getCenter()
@@ -383,7 +409,7 @@ function medirDistancia() {
     try {
         //firstLatLng = arrayMarker[0].getPosition();
         var x = 0;
-        console.log("TOTAL ARRAY MARKER: "+arrayMarker.length + "   MARKER: "+markers.length);
+        console.log("TOTAL ARRAY MARKER: " + arrayMarker.length + "   MARKER: " + markers.length);
         cleanArray(arrayMarker.length);
 
         totalMetros = parseInt($.trim($("[id*=distancia]").val()));
@@ -411,20 +437,16 @@ function medirDistancia() {
                     console.log("Nuevo Juzgado " + totalNuevo)
                     totalNuevo++;
                 } else {
-                    // console.log("Juzgado dentro de la simulacion Distancia en metros:" + distanceInMeters);
-                    var total = parseInt(markers[x].total)
-                    //console.log("LABEL  total: " + total[1]+ "->"+total[0]);
-                    //var arrayDeCadenas = cadenaADividir.split(separador);
-                    arrayMarker[x].setAnimation(google.maps.Animation.BOUNCE); //Agregar animación
-                    //arrayMarker[arrayMarker.length - 1].setAnimation(google.maps.Animation.BOUNCE);
-                    posicion2 = x;
-                    //console.log("JUNTOS  posicion:" + posicion + " " + "pos2=" + posicion2);
 
-                    //arrayMarker[x].setLabel(label + x);
+                    var total = parseInt(markers[x].total)
+
+                    arrayMarker[x].setAnimation(google.maps.Animation.BOUNCE); //Agregar animación
+
+                    posicion2 = x;
+
                     agregados = agregados + parseInt(markers[x].total);
-                    modificarOdometro(contador, total);
-                //console.log("veces q pasa en a:" + contador);
-                //console.log("TOTAL AGREGADOS: "+agregados + " ----- ");
+                    //modificarOdometro(contador, total);
+
                 }
 
                 arrayJuzgados.push(markers[x]);
@@ -434,13 +456,10 @@ function medirDistancia() {
             else {
 
                 arrayMarker[x].setAnimation(null);
-                // console.log("Juzgado fuera de la simulacion Distancia en metros:" + distanceInMeters);
-                //arrayMarker[x].setLabel(label + x);
+
                 posicion2 = x;
-                var fijos = 4;
-                //console.log("SEPARADOS posicion:" + posicion + " " + "pos2=" + posicion2);
-                // sumar(fijos, posicion, posicion2);
-                //sumar(fijos);
+                //      var fijos = 4;
+
             }
             arrayMarker[x].getPosition();
         }
@@ -448,7 +467,7 @@ function medirDistancia() {
         //sumar( contador, agregados, fijos);
         totalMarkers = contador;
         modificarOdometro(contador, 0);
-        ocultarOdometro(arrayMarker.length , 0);
+        ocultarOdometro(arrayMarker.length, 0);
 
 
         //Actualizar input de totales
@@ -456,13 +475,29 @@ function medirDistancia() {
         inputNombre.value = ""+agregados;*/
 
         //console.log("TOTAL : "+ $('totalJuzgado').val);
-        document.getElementById('odometerTotal').textContent = agregados;
+
+        //this.odometerTotal = agregados;
+
+        console.log("AGREGADOS KARY " + agregados);
+
+
 
         //document.getElementById('total').value = agregados;
         totalNuevo++;
-        console.log("TOTAL AGREGADOS: " + agregados + " ----- " + contador + "  N: " + totalNuevo);
+        var elementoC = 'odometerTotal' + totalNuevo;
+     /* console.log($("#odometerTotal" + totalNuevo).val(agregados));*/
 
-    } catch (ex) { console.log(ex); }
+        console.log("TOTAL AGREGADOS: " + agregados + " ----- " + contador + "  N: " + totalNuevo+ "        ID= "+elementoC);
+
+        //$("#" + elementoC).load(window.location.href + " #" + elementoC);
+        //document.getElementById(elementoC).innerHTML.text = agregados;
+        //$("[id*=odometerTotal" + elementoC + "]").html(""+agregados);
+        //$("[id*=odometerTotal" + elementoC + "]").addClass("odometer");
+        //$("#" + elementoC).load("#" + elementoC);
+
+    } catch (ex) {
+        console.log(ex);
+    }
 }
 
 
@@ -501,25 +536,27 @@ function deleteMarkers(arrayMarker) {
 }
 
 
-function mostrarInfoJuzgados() {
-    console.log("entra a mostrar info juzgados   markers=>"+totalMarkers);
+function mostrarInfoJuzgados(cont) {
+    $("#odometerTotal" + cont).val(agregados);
+    console.log("entra a mostrar info juzgados   markers=>" + totalMarkers);
     var count = totalMarkers;
     const htmlInfo = [];
     console.log(arrayJuzgados);
     console.log("TOTAL JUZGADOS: " + arrayJuzgados.length);
-    $("#tablaJuzgados").empty();
-    htmlInfo.push('<tr><td>Nombre</td><td>Porcentaje</td></tr>');
+    console.log($('#tablaJuzgado' + cont) );
+    $('#tablaJuzgado' + cont).empty();
+    htmlInfo.push('<tr><td>Nombre</td><td>Porcentaje</td><td>Total</td></tr>');
     for (var i = 0; i < (totalMarkers); i++) {
         var idJuz = (i == 0) ? 'N' : arrayJuzgados[i - 1].id;
-        var nombreJuzgado = (i == 0) ? ( $.trim($("[id*=nombreJuzgado]").val())) : (arrayJuzgados[i - 1].title);
-        var porcentajeJuzgado = (i == 0) ? $.trim($("[id*=porcentajeJuzgado]").val()) : 0;
-        var totalInicio = (i == 0) ? 0 : arrayJuzgados[i - 1].total ;
+        var nombreJuzgado = (i == 0) ? ($.trim($("[id*=nombreJuzgado"+cont+"]").val())) : (arrayJuzgados[i - 1].title);
+        var porcentajeJuzgado = (i == 0) ? $.trim($("[id*=porcentajeJuzgado"+cont+"]").val()) : 0;
+        var totalInicio = (i == 0) ? 0 : arrayJuzgados[i - 1].total;
         console.log(i + " - " + nombreJuzgado + " - " + porcentajeJuzgado);
 
         var dato = '<tr>' +
-            '<td style="width:300px;"> ' + idJuz +". " + nombreJuzgado+'</td>' +
-            '<td> <input id="simula' + i + '"  Text="' + porcentajeJuzgado + '" style="width: 50px;" class="totPor" onkeyup="sumarPorcentajes();"  /></td>' +
-            //'<td><div id="odometerTotal09' + count + '" class="odometer">0</div> </td>' +
+            '<td style="width:300px;"> ' + idJuz + ". " + nombreJuzgado + '</td>' +
+            '<td> <input id="simula'+cont+"_" + i + '"  Text="' + porcentajeJuzgado + '" style="width: 50px;" class="totPor' + cont + '" onkeyup="sumarPorcentajes(' + cont + ');"/></td>' +
+            '<td> <input id="simulaTotalPanel' + cont + '_' + i +'" value="0" style="width: 50px;" /> </td> '+
             ' </tr >';
         htmlInfo.push(dato);
 
@@ -533,7 +570,7 @@ function mostrarInfoJuzgados() {
         console.log(obj);
         juzgadosSimulacion.push(obj);
     }
-    $('#tablaJuzgados').append(htmlInfo.join(''));
+    $('#tablaJuzgado' + cont).append(htmlInfo.join(''));
     //arrayJuzgados.length = 0;
 }
 
@@ -542,18 +579,20 @@ function mostrarInfoJuzgados() {
 
 
 
-function simularPorcentajes() {
+function simularPorcentajes(cont) {
     console.log("-");
     console.log("-");
-    var tot = $.trim($("[id*=totalPorcentaje1]").val());
-    console.log("AGREGADOS >>>>> " + agregados + " - "+tot);
+    var tot = $.trim($('[id*=totalPorcentaje' + cont + ']').val());
+    console.log("AGREGADOS >>>>> " + agregados + " - " + tot);
 
     if (totalPorcentajeSimulacion > 100) {
         alert('Verificar porcentajes, se excede el 100 %');
     } else {
         for (var i = 0; i < juzgadosSimulacion.length; i++) {
-            var prcnt = $.trim($("[id*=simula" + i + "]").val());
+            var prcnt = $.trim($("[id*=simula" + cont +"_" + i + "]").val());
             juzgadosSimulacion.porcentaje = (agregados * prcnt) / 100;
+            $("#simulaTotalPanel"+cont+"_"+i).val(juzgadosSimulacion.porcentaje);
+            //simulaTotalPanel
             //console.log(i + " -- " + juzgadosSimulacion.porcentaje);
             modificarOdometro(i, juzgadosSimulacion.porcentaje);
         }
@@ -564,16 +603,19 @@ function simularPorcentajes() {
 
 
 
-function sumarPorcentajes() {
+function sumarPorcentajes(n) {
     totalPorcentajeSimulacion = 0;
-    $(".totPor").each(function () {
+    $(".totPor"+n).each(function () {
         if (isNaN(parseInt($(this).val()))) {
             totalPorcentajeSimulacion += 0;
         } else {
             totalPorcentajeSimulacion += parseFloat($(this).val());
         }
     });
-    document.getElementById('totalPorcentaje1').innerHTML = totalPorcentajeSimulacion;
+     document.getElementById('totalPorcentaje'+n).innerHTML = totalPorcentajeSimulacion;
+
+    //window.totalPorcentaje.innerHTML = totalPorcentajeSimulacion;
+
     //console.log("TOT PORC " + totalPorcentajeSimulacion);
 
     if (totalPorcentajeSimulacion > 100) {

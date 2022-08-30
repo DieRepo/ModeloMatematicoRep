@@ -118,7 +118,7 @@ Probando subida de archivos
 
 
 
-        <asp:Panel runat="server" ID="panelDatos" Style="position: absolute; right: 50px; top: 620px; z-index: 2; background-color: white; opacity: 0.8; border-radius: 20px; padding: 10px;">
+        <asp:Panel runat="server" ID="panelDatos" Style="position: absolute; right: 50px; top: 620px; z-index: 2; background-color: white; opacity: 0.8; border-radius: 20px; padding: 10px; display:none;">
             <h5>INFORMACION</h5>
             <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -153,7 +153,7 @@ Probando subida de archivos
         </asp:Panel>
 
 
-        <asp:Panel runat="server" ID="panel1" Style="position: absolute; left: 30px; top: 520px; z-index: 2; background-color: #e3f2fd; opacity: 0.8; border-radius: 20px; padding: 10px;">
+        <asp:Panel runat="server" ID="panel1" Style="position: absolute; left: 30px; top: 520px; z-index: 2; background-color: #e3f2fd; opacity: 0.8; border-radius: 20px; padding: 10px; display:none;">
             <table id="tablaJuzgados" border="0" cellpadding="0" cellspacing="0">
             </table>
             <span>Total de porentaje: </span><span id="totalPorcentaje1"></span>
