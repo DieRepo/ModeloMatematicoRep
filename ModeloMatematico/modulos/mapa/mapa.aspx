@@ -82,7 +82,7 @@ Probando subida de archivos
                                   <asp:TextBox ID="distancia" runat="server" Text="10000" />
                               </td>
                           </tr>
-                          <tr><td>                           <asp:Button ID="btnSubmit" Text="Enviar" runat="server" />
+                          <tr><td>                           <asp:Button ID="btnSubmit" Text="Enviar" runat="server"  visible="false"/>
 </td></tr>
 
                       </table>
@@ -183,29 +183,29 @@ Probando subida de archivos
     <script src="../js/mapa1.js"></script>
 
     <script>
-        $(function () {
-            $("[id*=btnSubmit]").click(function () {
-                var name = $.trim($("[id*=txtName]").val());
-                var age = $.trim($("[id*=txtAge]").val());
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:59005/WebService.asmx/GetDetails",
-                    data: "",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        alert(r.d);
-                    },
-                    error: function (r) {
-                        alert(r.responseText);
-                    },
-                    failure: function (r) {
-                        alert(r.responseText);
-                    }
-                });
-                return false;
-            });
-        });
+        //$(function () {
+        //    $("[id*=btnSubmit]").click(function () {
+        //        var name = $.trim($("[id*=txtName]").val());
+        //        var age = $.trim($("[id*=txtAge]").val());
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "http://localhost:59005/WebService.asmx/GetDetails",
+        //            data: '{"fecha" : "2023-01-01"} ',
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json",
+        //            success: function (r) {
+        //                alert(r.d);
+        //            },
+        //            error: function (r) {
+        //                alert(r.responseText);
+        //            },
+        //            failure: function (r) {
+        //                alert(r.responseText);
+        //            }
+        //        });
+        //        return false;
+        //    });
+        //});
     </script>
         </form>
 </body>

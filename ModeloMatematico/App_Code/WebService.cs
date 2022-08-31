@@ -31,7 +31,7 @@ public class WebService : System.Web.Services.WebService {
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public string GetDetails(DateTime fecha,string materia)
+    public string GetDetails(string fecha, string materia)
     {
         string jsonNuevo= "";
         try
@@ -46,8 +46,8 @@ public class WebService : System.Web.Services.WebService {
                  "SELECT p.cveJuzgado cvejuz,p.total total,h.nombre juz,p.latitud la,p.longitud lo " +
                  "FROM die_simulacion.tblpredicciones p " +
                  "inner join die_equivalencias_catalogos.homologado_tbljuzgados h on p.cveJuzgado = h.idJuzgado " +
-                 "where cveJuzgado in(109, 15, 16, 99, 149, 127, 50, 127, 116, 146)" +
-                 "and p.fechaPrediccion like '"+fecha+"' and materia = '"+materia+"' ";
+                 "where cveJuzgado in(109, 15, 16, 99, 149, 127, 50, 127, 116, 146) " +
+                 "and p.fechaPrediccion like '"+fecha+"%' and h.materia = '"+materia+"' ";
 
             MySqlCommand cmd = new MySqlCommand(consulta, conexion);
             cmd.CommandTimeout = 1800;

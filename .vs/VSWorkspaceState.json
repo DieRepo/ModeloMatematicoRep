@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\ModeloMatematico",
-    "\\ModeloMatematico\\modulos",
-    "\\ModeloMatematico\\modulos\\js"
+    ""
   ],
-  "SelectedNode": "\\ModeloMatematico\\modulos\\js\\mapa1.js",
+  "SelectedNode": "\\ModeloMatematico.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -112,7 +112,7 @@ function obtenerJuzgados(map) {
     $.ajax({
         type: "POST",
         url: "http://localhost:59005/WebService.asmx/GetDetails",
-        data: "",
+        data: '{"fecha" : "2023-01-01", "materia": "FAMILIAR"} ',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (r) {
@@ -587,6 +587,7 @@ function simularPorcentajes(cont) {
         for (var i = 0; i < juzgadosSimulacion.length; i++) {
             var prcnt = $.trim($("[id*=simula" + cont +"_" + i + "]").val());
             juzgadosSimulacion.Porcentaje = (agregados * prcnt) / 100;
+            juzgadosSimulacion.porcentaje = Math.round(juzgadosSimulacion.porcentaje);
             $("#simulaTotalPanel"+cont+"_"+i).val(juzgadosSimulacion.Porcentaje);
             //simulaTotalPanel
             //console.log(i + " -- " + juzgadosSimulacion.Porcentaje);
