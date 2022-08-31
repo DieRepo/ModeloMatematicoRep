@@ -43,7 +43,7 @@ public class WebService : System.Web.Services.WebService {
             
 
             String consulta =
-                 "SELECT p.cveJuzgado cvejuz,p.total total,h.nombre juz,p.latitud la,p.longitud lo " +
+                 "SELECT p.cveJuzgado cvejuz,round(p.total) total,h.nombre juz,p.latitud la,p.longitud lo " +
                  "FROM die_simulacion.tblpredicciones p " +
                  "inner join die_equivalencias_catalogos.homologado_tbljuzgados h on p.cveJuzgado = h.idJuzgado " +
                  "where cveJuzgado in(109, 15, 16, 99, 149, 127, 50, 127, 116, 146) " +
