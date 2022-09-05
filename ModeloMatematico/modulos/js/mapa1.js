@@ -107,17 +107,31 @@ function initMap() {
     }
 }
 
-function obtenerJuzgados(map) {
-    console.log("Obtener información de WS");
+function obtenerJuzgados2() {
+
+    an= $("#an").val();
+    //alert($("#an").val());
+
+    mes= $("#mes").val();
+   // alert($("#mes").val());
+
+    materia = $("#Materia").val();
+   // alert($("#Materia").val());
+
+    var fecha = '' + an + '-' + mes + '-' + '01';
+    console.log(fecha);  
+
+    console.log("Obtener información de WS SEGUNDA VISTA");
+    //obtenerJuzgados(map);
     $.ajax({
         type: "POST",
         url: "http://localhost:59005/WebService.asmx/GetDetails",
-        data: '{"fecha" : "2023-01-01", "materia": "FAMILIAR"} ',
+        data: '{"fecha" : "' + fecha + '", "materia": "' + materia + '"} ',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (r) {
-            //alert(r.d);
-            //console.log(r.d);
+           // alert(r.d);
+            console.log(r.d);
             const parsed = JSON.parse(r.d);
             markers = parsed;
             //console.log("TERMINA OBTENER JUZGADOS  " + markers.length);
@@ -130,8 +144,18 @@ function obtenerJuzgados(map) {
             alert(r.responseText);
         }
     });
-
+ 
+     
 }
+
+
+
+function obtenerJuzgados(map) {
+
+    obtenerJuzgadosFamiliar(map);
+    console.log("primer vista ");
+}
+
 
 
 function obtenerJuzgadosFamiliar(map) {
@@ -367,6 +391,7 @@ function agregaJuzgado(latLng = google.maps.LatLng, map = google.maps.Map) {
                 // mensaje de eliminado
 
                 marker.setMap(null); //eliminar marcador
+                circle.setMap(null);
                 deleteMarkers(arrayMarker);
                 /*  arrayMarker[arrayMarker.length - 1];
                     setMapOnAll(map);

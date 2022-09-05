@@ -43,7 +43,7 @@ Probando subida de archivos
 
     <div style="position: relative;">
         <div id="map" style="position: absolute; left: 10px; top: 25px; z-index: 1; width: 100%; min-height: 768px;">MAPA</div>
-        <div id="panelOdometro" style="position: absolute; left: 30px; top: 80px; z-index: 3; opacity:0.7;">
+        <div id="panelOdometro" style="position: absolute; left: 30px; top: 80px; z-index: 3; opacity:0.7;" hidden="hidden">
             CUADRO 2 
            
            <br />
@@ -154,14 +154,56 @@ Probando subida de archivos
         </asp:Panel>
 
 
-        <asp:Panel runat="server" ID="panel1" Style="position: absolute; left: 30px; top: 520px; z-index: 2; background-color: #e3f2fd; opacity: 0.8; border-radius: 20px; padding: 10px; display:none;">
-            <table id="tablaJuzgados" border="0" cellpadding="0" cellspacing="0">
-            </table>
-            <span>Total de porentaje: </span><span id="totalPorcentaje1"></span>
+        <asp:Panel runat="server" ID="Panelpremes" Style="position: absolute; left: 30px; top: 520px; z-index: 2; background-color: #e3f2fd; opacity: 0.8; border-radius: 20px; padding: 10px;">
+           
+             <span>Selecciona año: </span><span id="prean"></span>
             <br />
-            <button type="button" class="btn btn-outline-primary" onclick="simularPorcentajes()">Generar</button>
+                 <select id="an" >
+                    <option value="0">Selecciona Año</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                   
+                 </select>
+              
+          <br />
 
-            <button  type="button" class="btn btn-outline-success" onclick="simularPorcentajes()">Guardar</button>
+            <span>Selecciona mes: </span><span id="premes"></span>
+            <br />
+
+            <select id="mes" >
+                <option value="0">Selecciona Mes</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Semptiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+             
+
+            </select>
+   <br />
+             <span>Selecciona Materia: </span><span id="premat"></span>
+            <br />
+            <select id="Materia" >
+                <option value="0">Selecciona Materia</option>
+                <option value="FAMILIAR">FAMILIAR</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="MERCANTIL">MERCANTIL</option>
+                <option value="LABORAL">LABORAL</option>
+                <option value="PENAL">PENAL</option>
+          
+            </select>
+            <br />
+            <br />
+          <button type="button" class="btn btn-outline-primary" onclick="obtenerJuzgados2()">Generar</button>
+
+            
 
         </asp:Panel>
 
